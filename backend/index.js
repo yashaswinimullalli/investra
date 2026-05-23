@@ -171,67 +171,6 @@ app.get("/me", verifyToken, async (req, res) => {
   }
 });
 
-// ─── Seed Routes (Dev Only) ───────────────────────────────────────────────────
-app.get("/addHoldings", async (req, res) => {
-  try {
-    const tempHoldings = [
-      {
-        name: "BHARTIARTL",
-        qty: 2,
-        avg: 538.05,
-        price: 541.15,
-        net: "+0.58%",
-        day: "+2.99%",
-      },
-    ];
-
-    const saves = tempHoldings.map(
-      (item) => new HoldingsModel(item).save()
-    );
-
-    await Promise.all(saves);
-
-    res.send(
-      "Holdings added! (" + tempHoldings.length + " records)"
-    );
-  } catch (err) {
-    res.status(500).json({
-      error: "Failed to add holdings",
-    });
-  }
-});
-
-app.get("/addPositions", async (req, res) => {
-  try {
-    const tempPositions = [
-      {
-        product: "CNC",
-        name: "EVEREADY",
-        qty: 2,
-        avg: 316.27,
-        price: 312.35,
-        net: "+0.58%",
-        day: "-1.24%",
-        isLoss: true,
-      },
-    ];
-
-    const saves = tempPositions.map(
-      (item) => new PositionsModel(item).save()
-    );
-
-    await Promise.all(saves);
-
-    res.send(
-      "Positions added! (" + tempPositions.length + " records)"
-    );
-  } catch (err) {
-    res.status(500).json({
-      error: "Failed to add positions",
-    });
-  }
-});
-
 // ─── Holdings Routes ───────────────────────────────────────────────────────────
 app.get("/allHoldings", async (req, res) => {
   try {
@@ -246,9 +185,7 @@ app.get("/allHoldings", async (req, res) => {
 
 app.delete("/holding/:id", verifyToken, async (req, res) => {
   try {
-    const deleted = await HoldingsModel.findByIdAndDelete(
-      req.params.id
-    );
+    const deleted = await HoldingsModel.findByIdAndDelete(req.params.id);
 
     if (!deleted) {
       return res.status(404).json({
@@ -282,10 +219,7 @@ app.get("/allPositions", async (req, res) => {
 // ─── Orders Routes ─────────────────────────────────────────────────────────────
 app.get("/allOrders", async (req, res) => {
   try {
-    const allOrders = await OrdersModel.find({}).sort({
-      _id: -1,
-    });
-
+    const allOrders = await OrdersModel.find({}).sort({ _id: -1 });
     res.json(allOrders);
   } catch (err) {
     res.status(500).json({
@@ -326,9 +260,7 @@ app.post("/newOrder", async (req, res) => {
 
 app.delete("/order/:id", verifyToken, async (req, res) => {
   try {
-    const deleted = await OrdersModel.findByIdAndDelete(
-      req.params.id
-    );
+    const deleted = await OrdersModel.findByIdAndDelete(req.params.id);
 
     if (!deleted) {
       return res.status(404).json({
@@ -380,9 +312,7 @@ app.get("/stock/:symbol", async (req, res) => {
       high: parseFloat(quote["03. high"]),
       low: parseFloat(quote["04. low"]),
       open: parseFloat(quote["02. open"]),
-      prevClose: parseFloat(
-        quote["08. previous close"]
-      ),
+      prevClose: parseFloat(quote["08. previous close"]),
     });
   } catch (err) {
     res.status(502).json({
@@ -418,8 +348,7 @@ app.post("/stocks/batch", async (req, res) => {
         results[symbol] = {
           price: parseFloat(quote["05. price"]),
           change: parseFloat(quote["09. change"]),
-          changePercent:
-            quote["10. change percent"],
+          changePercent: quote["10. change percent"],
         };
       }
     } catch {
@@ -444,20 +373,14 @@ app.use(
 // Dashboard Route
 app.get("/admin", (req, res) => {
   res.sendFile(
-    path.join(
-      __dirname,
-      "../dashboard/build/index.html"
-    )
+    path.join(__dirname, "../dashboard/build/index.html")
   );
 });
 
 // Frontend Route
-app.get("/*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(
-    path.join(
-      __dirname,
-      "../frontend/build/index.html"
-    )
+    path.join(__dirname, "../frontend/build/index.html")
   );
 });
 
@@ -472,10 +395,6 @@ mongoose
     });
   })
   .catch((err) => {
-    console.error(
-      "DB connection error:",
-      err.message
-    );
-
+    console.error("DB connection error:", err.message);
     process.exit(1);
   });
