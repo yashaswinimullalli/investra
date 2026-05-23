@@ -442,7 +442,7 @@ app.use(
 );
 
 // Dashboard Route
-app.get("/admin/*", (req, res) => {
+app.get("/admin", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
@@ -452,7 +452,7 @@ app.get("/admin/*", (req, res) => {
 });
 
 // Frontend Route
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
