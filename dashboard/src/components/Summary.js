@@ -28,8 +28,8 @@ const Summary = () => {
   const username = localStorage.getItem("username") || "User";
 
   useEffect(() => {
-    axios.get("http://localhost:3002/allHoldings").then((res) => setHoldings(res.data)).catch(() => {});
-    axios.get("http://localhost:3002/allOrders").then((res) => setOrders(res.data)).catch(() => {});
+    axios.get("https://investra-f0c2.onrender.com/allHoldings").then((res) => setHoldings(res.data)).catch(() => {});
+    axios.get("https://investra-f0c2.onrender.com/allOrders").then((res) => setOrders(res.data)).catch(() => {});
   }, []);
 
   const totalInvestment = holdings.reduce((sum, s) => sum + s.avg * s.qty, 0);

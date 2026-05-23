@@ -12,7 +12,7 @@ const TopBar = () => {
     // Fetch NIFTY 50 and SENSEX from backend proxy
     const fetchIndex = async (symbol, key) => {
       try {
-        const res = await axios.get(`http://localhost:3002/stock/${symbol}`);
+        const res = await axios.get(`https://investra-f0c2.onrender.com/stock/${symbol}`);
         if (res.data.price) {
           const up = res.data.change >= 0;
           setIndices((prev) => ({

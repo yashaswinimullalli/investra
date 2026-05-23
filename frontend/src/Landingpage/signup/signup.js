@@ -19,11 +19,11 @@ function Signup() {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:3002/signup", form);
+      const res = await axios.post("https://investra-f0c2.onrender.com/signup", form);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("username", res.data.name);
       setSubmitted(true);
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/dashboard"), 1500);
     } catch (err) {
       setError(err.response?.data?.error || "Signup failed. Please try again.");
     } finally {

@@ -31,7 +31,7 @@ const Holdings = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/allHoldings")
+      .get("https://investra-f0c2.onrender.com/allHoldings")
       .then((res) => {
         setAllHoldings(res.data);
         setLoading(false);

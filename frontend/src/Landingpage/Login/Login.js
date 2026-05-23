@@ -18,11 +18,10 @@ function Login() {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:3002/login", form);
+      const res = await axios.post("https://investra-f0c2.onrender.com/login", form);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("username", res.data.name);
-      navigate("/");
-      window.location.reload();
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed. Please try again.");
     } finally {
